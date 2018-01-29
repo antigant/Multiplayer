@@ -99,6 +99,7 @@ namespace Net {
             // Step 8. After finish the process with packet, You should delete the session message.
             //         If you forget to delete, it will cause memory leak!
             NetObj.GetProcessList()->DeleteFirstSession();
+			//PacketID = PACKET_ID_S2C_EMPTY;
         }
     }
 

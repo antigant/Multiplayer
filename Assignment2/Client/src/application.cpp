@@ -234,6 +234,7 @@ bool Application::Update()
 		}
 
 		// Update all enemy missiles
+		bool missile_collided = false;
 		for (unsigned int i = 0; i < enemymissiles_.size(); ++i)
 		{
 			if (enemymissiles_[i]->Update(timedelta, enemymissiles_[i]->sprite_->GetWidth(), enemymissiles_[i]->sprite_->GetHeight()))
@@ -242,16 +243,24 @@ bool Application::Update()
 					{
 						if (HasCollided(enemymissiles_[i], itr_asteroids))
 						{
+							missile_collided = true;
 							enemymissiles_.erase(enemymissiles_.begin() + i);
+							// render boom!
 							break;
 						}
 					}
+
+					if (true == missile_collided) continue;
+					//if (i >= enemymissiles_.size())
+					//	continue;
 
 					if (enemymissiles_[i])
 					{
 						if (HasCollided(myship_, enemymissiles_[i]))
 						{
+							missile_collided = true;
 							enemymissiles_.erase(enemymissiles_.begin() + i);
+							// render boom!
 							break;
 						}
 					}

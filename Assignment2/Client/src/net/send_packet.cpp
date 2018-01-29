@@ -47,7 +47,7 @@ namespace Net
     void send_packet_myship_movement( Ship *myship )
     {
         timer_net_movement_update += net_timer.GetTimer_msec();
-        if( timer_net_movement_update > 500.0 )
+        if( timer_net_movement_update > 100.0 )
         {
             timer_net_movement_update = 0;
 

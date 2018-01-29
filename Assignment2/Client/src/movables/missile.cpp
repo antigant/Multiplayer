@@ -27,8 +27,8 @@ Missile::Missile(char* filename, float x, float y, float w, int shipid )
     set_server_velocity_x( get_velocity_x() );
     set_server_velocity_y( get_velocity_y() );
 
-    set_x( get_x() + ( get_velocity_x() * 0.5f ) );
-    set_y( get_y() + ( get_velocity_y() * 0.5f ) );
+//    set_x( get_x() + ( get_velocity_x() * 0.5f ) );
+//    set_y( get_y() + ( get_velocity_y() * 0.5f ) );
 
     set_ownerid( shipid );
 }
