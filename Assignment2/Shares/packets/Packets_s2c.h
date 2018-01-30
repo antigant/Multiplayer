@@ -116,6 +116,13 @@ struct PKT_S2C_NewMissile
 	float angular_velocity;
 };
 
+struct PKT_S2C_RenderBoom
+{
+	float x;
+	float y;
+	bool render_boom;
+};
+
 #pragma pack(pop) // Return back to default memory alignment.
 
 

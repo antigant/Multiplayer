@@ -72,14 +72,21 @@ struct PKT_C2S_NewMissile
 	float angular_velocity;
 };
 
+struct PKT_C2S_RenderBoom
+{
+	float x;
+	float y;
+	bool render_boom;
+};
+
 struct PKT_C2S_DeleteMissile
 {
-
+	// Not yet implemented
 };
 
 struct PKT_C2S_UpdateMissile
 {
-
+	// Not yet implemented
 };
 
 #pragma pack(pop) // Return back to default memory alignment.
