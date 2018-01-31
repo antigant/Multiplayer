@@ -8,6 +8,7 @@
 #include "packets\packets_c2s.h"
 #include "..\movables\asteroid.h"
 #include "../movables/missile.h"
+#include "../non_movables/boom.h"
 
 // Function prototypes.
 namespace Net
@@ -19,7 +20,7 @@ namespace Net
 	void send_packet_new_missile(Missile *newMissile);
 
 	// Assignment 2
-	void send_packet_render_boom(int OwnershipID, float x, float y, bool render_boom);
+	void send_packet_render_boom(Boom *newBoom);
 }
 
 

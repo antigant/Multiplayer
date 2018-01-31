@@ -211,6 +211,8 @@ bool Application::Update()
 				{
 					if (HasCollided(myMissile, itr_asteroids))
 					{
+						// render boom!
+						CreateBoom(myMissile->get_x(), myMissile->get_y(), myMissile->get_ownerid());
 						delete myMissile;
 						myMissile = NULL;
 						break;
@@ -244,8 +246,9 @@ bool Application::Update()
 						if (HasCollided(enemymissiles_[i], itr_asteroids))
 						{
 							missile_collided = true;
-							enemymissiles_.erase(enemymissiles_.begin() + i);
 							// render boom!
+							CreateBoom(enemymissiles_[i]->get_x(), enemymissiles_[i]->get_y(), enemymissiles_[i]->get_ownerid());
+							enemymissiles_.erase(enemymissiles_.begin() + i);
 							break;
 						}
 					}
@@ -264,6 +267,20 @@ bool Application::Update()
 							break;
 						}
 					}
+			}
+		}
+
+		/**
+		* Assignment 2
+		*/
+		// Update booms
+		for (int i = 0; i < boomslist_.size(); ++i)
+		{
+			if (!boomslist_[i]->Update(timedelta))
+			{
+				delete boomslist_[i];
+				boomslist_[i] = NULL;
+				boomslist_.erase(boomslist_.begin() + i);
 			}
 		}
 
@@ -295,11 +312,13 @@ void Application::Render()
     for( auto asteroid : asteroids_ ) asteroid->Render();
 
 	// Render enemy missile
-	for (auto enemymissile : enemymissiles_)
-		enemymissile->Render();
+	for (auto enemymissile : enemymissiles_) enemymissile->Render();
 
 	// Render my missile
 	if (myMissile) myMissile->Render();
+
+	// Render booms effect
+	for (auto booms : boomslist_) booms->Render();
 
 	hge_->Gfx_EndScene();
 }
@@ -416,4 +435,14 @@ void Application::CreateMissile(float x, float y, float w, int id)
 
 	// send new missile information to the server
 	Net::send_packet_new_missile(myMissile);
+}
+
+void Application::CreateBoom(float x, float y, int id)
+{
+	// add a new boom based on the parameters
+	Boom *boom = new Boom("boom.png", x, y, id);
+	boom->set_render(true);
+
+	// send new boom information to the server
+	Net::send_packet_render_boom(boom);
 }

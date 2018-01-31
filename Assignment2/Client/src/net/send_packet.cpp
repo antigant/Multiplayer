@@ -56,8 +56,8 @@ namespace Net
             PacketData.x = myship->get_x();
             PacketData.y = myship->get_y();
             PacketData.w = myship->get_w();
-            PacketData.velocity_x = myship->get_velocity_x();
-            PacketData.velocity_y = myship->get_velocity_y();
+            PacketData.velocity_x = myship->get_server_velocity_x();
+            PacketData.velocity_y = myship->get_server_velocity_y();
             PacketData.angular_velocity = myship->get_angular_velocity();
 
             struct HNet::_PacketMessage Packet;
@@ -128,13 +128,13 @@ namespace Net
 	}
 
 	// Assignment 2
-	void send_packet_render_boom(int OwnershipID, float x, float y, bool render_boom) // Process of sending information from client to server
+	void send_packet_render_boom(Boom *newBoom) // Process of sending information from client to server
 	{
 		struct PKT_C2S_RenderBoom PacketData;
-		PacketData.OwnerShipID = OwnershipID;
-		PacketData.x = x;
-		PacketData.y = y;
-		PacketData.render_boom = render_boom;
+		PacketData.OwnerShipID = newBoom->get_ownerid();
+		PacketData.x = newBoom->get_x();
+		PacketData.y = newBoom->get_y();
+		PacketData.render_boom = newBoom->get_render();
 
 		struct HNet::_PacketMessage Packet;
 		int PacketID = PACKET_ID_C2S_RENDERBOOM;

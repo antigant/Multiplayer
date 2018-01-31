@@ -74,6 +74,7 @@ struct PKT_C2S_NewMissile
 	float angular_velocity;
 };
 
+// Change the name of this one toooo
 struct PKT_C2S_RenderBoom
 {
 	int OwnerShipID;

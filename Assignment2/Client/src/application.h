@@ -6,6 +6,8 @@
 #include "movables\missile.h"
 #include <vector>
 
+#include "non_movables\boom.h"
+
 enum _GAMESTATE {
     GAMESTATE_NONE = 0,
     GAMESTATE_INITIALIZING,
@@ -47,6 +49,8 @@ class Application
 		bool keydown_enter;
 
 		// Add relevant variables for explosion, typedef std::vector<Boom*> BoomList; etc..
+		typedef std::vector<Boom*> BoomList;
+		BoomList boomslist_;
 
     	bool Init();
     	static bool Loop();
@@ -67,6 +71,7 @@ class Application
         bool CheckCollision( Mov &object, Tgt &movable, float timedelta );
 
 		void CreateMissile(float x, float y, float w, int id);
+		void CreateBoom(float x, float y, int id);
 
     public:
         void SetGameState( int gamestate ) { gamestate_ = gamestate; }
@@ -78,6 +83,9 @@ class Application
         Ship *FindEnemyShip( int ShipID );
         AsteroidList *GetAsteroidList( void ) { return &asteroids_; }
 		MissileList *GetEnemyMissileList() { return &enemymissiles_; }
+
+		// Assignment 2
+		BoomList *GetBoomsList() { return &boomslist_; }
 };
 
 #endif

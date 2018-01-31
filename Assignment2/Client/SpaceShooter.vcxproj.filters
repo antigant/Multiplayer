@@ -28,6 +28,12 @@
     <ClCompile Include="src\movables\missile.cpp">
       <Filter>Movables</Filter>
     </ClCompile>
+    <ClCompile Include="src\non_movables\non_movables.cpp">
+      <Filter>Non Moveables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\non_movables\boom.cpp">
+      <Filter>Non Moveables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\net\send_packet.h">
@@ -63,6 +69,12 @@
     <ClInclude Include="src\movables\missile.h">
       <Filter>Movables</Filter>
     </ClInclude>
+    <ClInclude Include="src\non_movables\non_movables.h">
+      <Filter>Non Moveables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\non_movables\boom.h">
+      <Filter>Non Moveables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -82,6 +94,9 @@
     </Filter>
     <Filter Include="Movables">
       <UniqueIdentifier>{0a65f353-ed9b-4500-98ac-af5f1bac261e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Non Moveables">
+      <UniqueIdentifier>{ae7b69ec-a664-4c33-afce-8ac0e8616a61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -28,6 +28,8 @@
     <ClCompile Include="src\movables\ship.cpp" />
     <ClCompile Include="src\net\process_packet.cpp" />
     <ClCompile Include="src\net\send_packet.cpp" />
+    <ClCompile Include="src\non_movables\boom.cpp" />
+    <ClCompile Include="src\non_movables\non_movables.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shares\packets\packets_c2s.h" />
@@ -41,6 +43,8 @@
     <ClInclude Include="src\movables\ship.h" />
     <ClInclude Include="src\net\process_packet.h" />
     <ClInclude Include="src\net\send_packet.h" />
+    <ClInclude Include="src\non_movables\boom.h" />
+    <ClInclude Include="src\non_movables\non_movables.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{51913920-76FE-4542-8A96-FBF733D31850}</ProjectGuid>
