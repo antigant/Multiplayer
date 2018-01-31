@@ -126,4 +126,20 @@ namespace Net
 		Packet << PacketData;
 		NetObj.SendPacket(Packet);
 	}
+
+	// Assignment 2
+	void send_packet_render_boom(int OwnershipID, float x, float y, bool render_boom) // Process of sending information from client to server
+	{
+		struct PKT_C2S_RenderBoom PacketData;
+		PacketData.OwnerShipID = OwnershipID;
+		PacketData.x = x;
+		PacketData.y = y;
+		PacketData.render_boom = render_boom;
+
+		struct HNet::_PacketMessage Packet;
+		int PacketID = PACKET_ID_C2S_RENDERBOOM;
+		Packet << PacketID;
+		Packet << PacketData;
+		NetObj.SendPacket(Packet);
+	}
 }

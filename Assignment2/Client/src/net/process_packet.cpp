@@ -89,6 +89,10 @@ namespace Net {
 						case PACKET_ID_S2C_NEWMISSILE:
 							NewMissile(thisapp, ToProcessSessoin);
 							break;
+
+						case PACKET_ID_S2C_RENDERBOOM:
+							RenderBoom(thisapp, ToProcessSessoin);
+							break;
                     }
 
                 }
@@ -333,6 +337,18 @@ namespace Net {
 		missile->set_server_velocity_x(NewMissileData.velocity_x);
 		missile->set_server_velocity_y(NewMissileData.velocity_y);
 		thisapp->GetEnemyMissileList()->push_back(missile);
+	}
+
+	//Assignment 2
+	void RenderBoom(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession)
+	{
+		struct PKT_S2C_RenderBoom NewRenderBoomData;
+		ToProcessSession->PacketMessage >> NewRenderBoomData;
+
+		// If it's myself then ignore
+		if (thisapp->GetMyShip()->GetShipID() == NewRenderBoomData.OwnerShipID) return;
+
+		// Need to create a explosion sprite class here and a vector to store all the enemy missile explosion
 	}
 }
 

@@ -46,6 +46,8 @@ class Application
 		bool have_missile;
 		bool keydown_enter;
 
+		// Add relevant variables for explosion, typedef std::vector<Boom*> BoomList; etc..
+
     	bool Init();
     	static bool Loop();
     	void Shutdown();

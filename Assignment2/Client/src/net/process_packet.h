@@ -18,6 +18,9 @@ namespace Net {
     void AsteroidMovement( Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
 	void AsteroidCollided(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
 	void NewMissile(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
+
+	//Assignment 2
+	void RenderBoom(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
 }
 
 

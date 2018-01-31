@@ -50,8 +50,13 @@ void ReceviedPacketProcess( struct HNet::_ProcessSession *ToProcessSessoin )
 		{
 			ReceviedPacketProcess_NewMissile(ToProcessSessoin);
 		}
-
         break;
+
+		case PACKET_ID_C2S_RENDERBOOM:
+		{
+			ReceviedPacketProcess_RenderBoom(ToProcessSessoin);
+		}
+		break;
     }
 }
 
@@ -282,4 +287,25 @@ void ReceviedPacketProcess_NewMissile(struct HNet::_ProcessSession *ToProcessSes
 	SendPacket << PacketID;
 	SendPacket << SendData;
 	NetObj.SendPacketToAll(SendPacket); // To send to everyone
+}
+
+// Assignment 2
+void ReceviedPacketProcess_RenderBoom(struct HNet::_ProcessSession *ToProcessSessoin)
+{
+	struct PKT_C2S_RenderBoom RecvData;
+	ToProcessSessoin->PacketMessage >> RecvData;
+
+	// Send to everyone
+	struct HNet::_PacketMessage SendPacket;
+	struct PKT_S2C_RenderBoom SendData;
+	int PacketID = PACKET_ID_S2C_RENDERBOOM;
+
+	SendData.OwnerShipID = RecvData.OwnerShipID;
+	SendData.x = RecvData.x;
+	SendData.y = RecvData.y;
+	SendData.render_boom = RecvData.render_boom;
+
+	SendPacket << PacketID;
+	SendPacket << SendData;
+	NetObj.SendPacketToAll(SendPacket); // To send to everyone!
 }

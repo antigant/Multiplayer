@@ -17,6 +17,9 @@ namespace Net
     void send_packet_collided( Ship *myship );
 	void send_packet_asteroid_collided(Asteroid *asteroid);
 	void send_packet_new_missile(Missile *newMissile);
+
+	// Assignment 2
+	void send_packet_render_boom(int OwnershipID, float x, float y, bool render_boom);
 }
 
 

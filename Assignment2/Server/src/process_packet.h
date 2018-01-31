@@ -10,4 +10,7 @@ void ReceviedPacketProcess_Movement( struct HNet::_ProcessSession *ToProcessSess
 void ReceivedPacketProcess_Collided( struct HNet::_ProcessSession *ToProcessSessoin );
 void ReceviedPacketProcess_AsteroidCollided(struct HNet::_ProcessSession *ToProcessSessoin);
 void ReceviedPacketProcess_NewMissile(struct HNet::_ProcessSession *ToProcessSessoin);
+
+// Assignment 2
+void ReceviedPacketProcess_RenderBoom(struct HNet::_ProcessSession *ToProcessSessoin);
 #endif
