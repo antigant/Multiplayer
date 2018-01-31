@@ -57,6 +57,12 @@ void ReceviedPacketProcess( struct HNet::_ProcessSession *ToProcessSessoin )
 			ReceviedPacketProcess_RenderBoom(ToProcessSessoin);
 		}
 		break;
+
+		case PACKET_ID_C2S_UPDATEHP:
+		{
+			ReceviedPacketProcess_UpdateHP(ToProcessSessoin);
+		}
+		break;
     }
 }
 
@@ -308,4 +314,23 @@ void ReceviedPacketProcess_RenderBoom(struct HNet::_ProcessSession *ToProcessSes
 	SendPacket << PacketID;
 	SendPacket << SendData;
 	NetObj.SendPacketToAll(SendPacket); // To send to everyone!
+}
+
+void ReceviedPacketProcess_UpdateHP(HNet::_ProcessSession *ToProcessSessoin)
+{
+	// Initialising the packet recevied from client
+	struct PKT_C2S_UpdateHP RecvData;
+	ToProcessSessoin->PacketMessage >> RecvData;
+
+	// Sending to everyone
+	struct HNet::_PacketMessage SendPacket;
+	struct PKT_S2C_UpdateHP SendData;
+	int PacketID = PACKET_ID_S2C_UPDATEHP;
+
+	SendData.ShipID = RecvData.ShipID;
+	SendData.damage = RecvData.damage;
+
+	SendPacket << PacketID;
+	SendPacket << SendData;
+	NetObj.SendPacket(SendData.ShipID, SendPacket);
 }

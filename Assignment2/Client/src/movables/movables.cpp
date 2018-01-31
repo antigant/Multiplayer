@@ -42,6 +42,10 @@ void Movables::do_interpolate_update()
 
 bool Movables::Update( float timedelta, float spritewidth, float spriteheight )
 {
+	// Don't update if rendering on screen
+	if (!get_render())
+		return false;
+
     // Calculate the movement.
     HGE* hge = hgeCreate( HGE_VERSION );
     float pi = 3.141592654f * 2;

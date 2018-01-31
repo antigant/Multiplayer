@@ -142,4 +142,18 @@ namespace Net
 		Packet << PacketData;
 		NetObj.SendPacket(Packet);
 	}
+	void send_packet_update_hp(Missile *missile)
+	{
+		// Preparing the packet to be send over to server
+		struct PKT_C2S_UpdateHP PacketData;
+		PacketData.ShipID = missile->get_shipid();
+		PacketData.damage = missile->get_damage();
+
+		// Sending over to server now
+		struct HNet::_PacketMessage Packet;
+		int PacketID = PACKET_ID_C2S_UPDATEHP;
+		Packet << PacketID;
+		Packet << PacketData;
+		NetObj.SendPacket(Packet);
+	}
 }

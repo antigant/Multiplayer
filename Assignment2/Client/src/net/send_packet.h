@@ -21,6 +21,7 @@ namespace Net
 
 	// Assignment 2
 	void send_packet_render_boom(Boom *newBoom);
+	void send_packet_update_hp(Missile *missile);
 }
 
 

@@ -12,6 +12,7 @@ class Missile : public Movables
 	private:
 		int ownerid_;
 		float damage_;
+		int shipid_; // stores the id of the ship the missile had collide with
 
     public:
     	HTEXTURE tex_; //!< Handle to the sprite's texture
@@ -27,6 +28,10 @@ class Missile : public Movables
 
 		void set_damage(float damage) { damage_ = damage; }
 		float get_damage() { return damage_; }
+
+		// Assignment 2
+		void set_shipid(int shipid) { shipid_ = shipid; }
+		int get_shipid() { return shipid_; }
 
     public: // Interface functions.
     	void Render();

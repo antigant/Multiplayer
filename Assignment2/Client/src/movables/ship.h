@@ -20,6 +20,7 @@ class Ship : public Movables
         std::string shipname_;
         int shipid_;           //!< Same number of SessionIndex (from Network Library).
         int shiptype_;
+		float maxhp_;
 		float hp_;
 
     public:
@@ -29,7 +30,7 @@ class Ship : public Movables
 
     public:
     	Ship( int shiptype = 1 );
-        Ship( int shiptype, std::string shipname, float startx = 400, float starty = 300, float startw = 0, float hp = 100.f );
+        Ship( int shiptype, std::string shipname, float startx = 400, float starty = 300, float startw = 0, float maxhp = 100.f );
     	~Ship();
 
     public:
@@ -42,8 +43,16 @@ class Ship : public Movables
         int         GetShipID              ( void                 ) { return shipid_;   }
         void        SetShipType            ( int shiptype         ) { shiptype_ = shiptype;  }
         int         GetShipType            ( void                 ) { return shiptype_; }
+
+		/************ Assignment2 *************/
 		void        Set_HP                 ( float hp             ) { hp_ = hp;         }
 		float       Get_HP                 ( void                 ) { return hp_;       }
+		void Add_HP                        ( float hp             ) 
+																	{
+																		hp_ += hp; 
+																		if (hp_ >= maxhp_)
+																			hp_ = maxhp_;
+																	}
 };
 
 #endif

@@ -15,4 +15,9 @@ void SendPacketProcess_EnemyShipDisconnect( const int SessionID );
 void SendPacketProcess_AsteroidMovement( _Asteroid *asteroid );
 void SendPacketProcess_AsteroidCollided(_Asteroid *asteroid);
 
+// Assignment 2
+// Add new functions to disconnect player if server have more than 3
+void SendPacketProcess_ServerFull(const int SessionID);
+void SendPacketProcess_ServerFull_Message(const int SessionID);
+
 #endif

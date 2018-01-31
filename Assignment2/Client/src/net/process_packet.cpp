@@ -93,6 +93,10 @@ namespace Net {
 						case PACKET_ID_S2C_RENDERBOOM:
 							RenderBoom(thisapp, ToProcessSessoin);
 							break;
+
+						case PACKET_ID_S2C_UPDATEHP:
+							UpdateHP(thisapp, ToProcessSessoin);
+							break;
                     }
 
                 }
@@ -353,6 +357,20 @@ namespace Net {
 		boom->set_render(true);
 		boom->set_render_time(0.5f); // render for 5s
 		thisapp->GetEnemyBooms()->push_back(boom);
+	}
+
+	void UpdateHP(Application * thisapp, HNet::_ProcessSession * ToProcessSession)
+	{
+		struct PKT_S2C_UpdateHP UpdateHPData;
+		ToProcessSession->PacketMessage >> UpdateHPData;
+
+		// Safety check, if missile didnt collide with me then return (very unlikely)
+		if (thisapp->GetMyShip()->GetShipID() != UpdateHPData.ShipID) return;
+
+		// Update the ship hp
+		thisapp->GetMyShip()->Add_HP(-UpdateHPData.damage);
+		if (thisapp->GetMyShip()->Get_HP() <= 0.f)
+			thisapp->GetMyShip()->set_render(false);
 	}
 }
 

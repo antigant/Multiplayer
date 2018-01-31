@@ -9,8 +9,11 @@ enum _PACKET_ID_CLIENT_TO_SERVER {
     PACKET_ID_C2S_COLLIDED,
 	PACKET_ID_C2S_ASTEROIDCOLLIDED,
 	PACKET_ID_C2S_NEWMISSILE,
+
+	/************ Assignment2 *************/
 	// Use to render boom for t seconds
 	PACKET_ID_C2S_RENDERBOOM,
+	PACKET_ID_C2S_UPDATEHP,
 
     PACKET_ID_C2S_END                   // This is the indicator for the end of the list. Do not put any packet ID after this.
 
@@ -74,13 +77,19 @@ struct PKT_C2S_NewMissile
 	float angular_velocity;
 };
 
-// Change the name of this one toooo
 struct PKT_C2S_RenderBoom
 {
 	int OwnerShipID;
 	float x;
 	float y;
 	bool render_boom;
+};
+
+struct PKT_C2S_UpdateHP
+{
+	// ID of the ship that missile collides with
+	int ShipID; 
+	float damage;
 };
 
 struct PKT_C2S_DeleteMissile

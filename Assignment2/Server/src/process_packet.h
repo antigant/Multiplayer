@@ -13,4 +13,5 @@ void ReceviedPacketProcess_NewMissile(struct HNet::_ProcessSession *ToProcessSes
 
 // Assignment 2
 void ReceviedPacketProcess_RenderBoom(struct HNet::_ProcessSession *ToProcessSessoin);
+void ReceviedPacketProcess_UpdateHP(struct HNet::_ProcessSession *ToProcessSessoin);
 #endif

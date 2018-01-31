@@ -92,3 +92,18 @@ void SendPacketProcess_AsteroidCollided(_Asteroid *asteroid)
 	Packet << PacketData;
 	NetObj.SendPacketToAll(Packet);
 }
+
+// Assignment 2
+void SendPacketProcess_ServerFull(const int SessionID)
+{
+	// Add into ship ilst.
+	g_ShipList[SessionID].connected = false;
+
+	// Send welcome message.
+	SendPacketProcess_ServerFull_Message(SessionID);
+}
+
+void SendPacketProcess_ServerFull_Message(const int SessionID)
+{
+
+}

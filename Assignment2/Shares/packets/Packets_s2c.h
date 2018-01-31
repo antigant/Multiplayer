@@ -17,8 +17,11 @@ enum _PACKET_ID_SERVER_TO_CLIENT {
     PACKET_ID_S2C_ASTEROIDMOVEMENT,
 	PACKET_ID_S2C_ASTEROIDCOLLIDED,
 	PACKET_ID_S2C_NEWMISSILE,
+
+	/************ Assignment2 *************/
 	// Use to render boom for t seconds
 	PACKET_ID_S2C_RENDERBOOM,
+	PACKET_ID_S2C_UPDATEHP,
 
     PACKET_ID_S2C_END
 };
@@ -118,13 +121,19 @@ struct PKT_S2C_NewMissile
 	float angular_velocity;
 };
 
-// Change the name of this plssss
 struct PKT_S2C_RenderBoom
 {
 	int OwnerShipID;
 	float x;
 	float y;
 	bool render_boom;
+};
+
+struct PKT_S2C_UpdateHP
+{
+	// ID of the ship that missile collides with
+	int ShipID; 
+	float damage;
 };
 
 #pragma pack(pop) // Return back to default memory alignment.

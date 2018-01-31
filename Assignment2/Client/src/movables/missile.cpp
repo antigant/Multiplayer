@@ -31,6 +31,8 @@ Missile::Missile(char* filename, float x, float y, float w, int shipid )
 //    set_y( get_y() + ( get_velocity_y() * 0.5f ) );
 
     set_ownerid( shipid );
+
+	set_damage(0.f);
 }
 
 Missile::~Missile()

@@ -228,6 +228,11 @@ bool Application::Update()
 						{
 							CreateBoom(myMissile->get_x(), myMissile->get_y(), myMissile->get_ownerid());
 							// Due damage to enemy ship
+							myMissile->set_shipid(itr_enemyship->GetShipID());
+							// functions that update hp
+							UpdateHP(myMissile);
+							UpdateHP(itr_enemyship, myMissile->get_damage());
+
 							delete myMissile;
 							myMissile = NULL;
 							break;
@@ -266,6 +271,10 @@ bool Application::Update()
 							missile_collided = true;
 							CreateBoom(enemymissiles_[i]->get_x(), enemymissiles_[i]->get_y(), enemymissiles_[i]->get_ownerid());
 							// Due damage to player
+
+							//enemymissiles_[i]->set_shipid(myship_->GetShipID());
+							//// functions that update hp
+							////UpdateHP(enemymissiles_[i]);
 
 							enemymissiles_.erase(enemymissiles_.begin() + i);
 							// render boom!
@@ -437,6 +446,7 @@ void Application::CreateMissile(float x, float y, float w, int id)
 
 	// add a new missile based on the following parameter coordinates
 	myMissile = new Missile("missile.png", x, y, w, id);
+	myMissile->set_damage(10.f);
 
 	// send new missile information to the server
 	Net::send_packet_new_missile(myMissile);
@@ -450,4 +460,16 @@ void Application::CreateBoom(float x, float y, int id)
 
 	// send new boom information to the server
 	Net::send_packet_render_boom(boom);
+}
+
+void Application::UpdateHP(Missile *missile)
+{
+	Net::send_packet_update_hp(missile);
+}
+
+void Application::UpdateHP(Ship *ship, float damage)
+{
+	ship->Add_HP(-damage);
+	if (ship->Get_HP() <= 0.f)
+		ship->set_render(false);
 }

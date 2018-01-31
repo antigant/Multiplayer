@@ -71,7 +71,10 @@ class Application
         bool CheckCollision( Mov &object, Tgt &movable, float timedelta );
 
 		void CreateMissile(float x, float y, float w, int id);
+		// Assignment 2
 		void CreateBoom(float x, float y, int id);
+		void UpdateHP(Missile *missile);
+		void UpdateHP(Ship *ship, float damage);
 
     public:
         void SetGameState( int gamestate ) { gamestate_ = gamestate; }

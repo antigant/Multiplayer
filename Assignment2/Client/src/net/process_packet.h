@@ -21,6 +21,7 @@ namespace Net {
 
 	//Assignment 2
 	void RenderBoom(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
+	void UpdateHP(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
 }
 
 

@@ -50,6 +50,9 @@ class Movables
         hgeRect collidebox;
         bool collided_with_me_;
 
+		// Assignment 2
+		bool render_;
+
     public:
         Movables();
         ~Movables();
@@ -111,6 +114,10 @@ class Movables
 
         void set_collided_with_me( bool collided ) { collided_with_me_ = collided; }
         bool get_collided_with_me( void ) { return collided_with_me_; }
+
+		// Assignment 2
+		void set_render( bool render ) { render_ = render; }
+		bool get_render( void ) { return render_; }
 
     public:
         void do_interpolate_update();
