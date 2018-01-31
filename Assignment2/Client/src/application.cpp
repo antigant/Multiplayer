@@ -226,6 +226,8 @@ bool Application::Update()
 					{
 						if (HasCollided(myMissile, itr_enemyship))
 						{
+							CreateBoom(myMissile->get_x(), myMissile->get_y(), myMissile->get_ownerid());
+							// Due damage to enemy ship
 							delete myMissile;
 							myMissile = NULL;
 							break;
@@ -262,6 +264,9 @@ bool Application::Update()
 						if (HasCollided(myship_, enemymissiles_[i]))
 						{
 							missile_collided = true;
+							CreateBoom(enemymissiles_[i]->get_x(), enemymissiles_[i]->get_y(), enemymissiles_[i]->get_ownerid());
+							// Due damage to player
+
 							enemymissiles_.erase(enemymissiles_.begin() + i);
 							// render boom!
 							break;
@@ -274,13 +279,13 @@ bool Application::Update()
 		* Assignment 2
 		*/
 		// Update booms
-		for (int i = 0; i < boomslist_.size(); ++i)
-		{
-			if (!boomslist_[i]->Update(timedelta))
+		for (int i = 0; i < enemybooms_.size(); ++i)
+		{	// Enemy
+			if (!enemybooms_[i]->Update(timedelta))
 			{
-				delete boomslist_[i];
-				boomslist_[i] = NULL;
-				boomslist_.erase(boomslist_.begin() + i);
+				delete enemybooms_[i];
+				enemybooms_[i] = NULL;
+				enemybooms_.erase(enemybooms_.begin() + i);
 			}
 		}
 
@@ -318,7 +323,7 @@ void Application::Render()
 	if (myMissile) myMissile->Render();
 
 	// Render booms effect
-	for (auto booms : boomslist_) booms->Render();
+	for (auto booms : enemybooms_) booms->Render();
 
 	hge_->Gfx_EndScene();
 }

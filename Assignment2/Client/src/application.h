@@ -50,7 +50,7 @@ class Application
 
 		// Add relevant variables for explosion, typedef std::vector<Boom*> BoomList; etc..
 		typedef std::vector<Boom*> BoomList;
-		BoomList boomslist_;
+		BoomList enemybooms_;
 
     	bool Init();
     	static bool Loop();
@@ -85,7 +85,7 @@ class Application
 		MissileList *GetEnemyMissileList() { return &enemymissiles_; }
 
 		// Assignment 2
-		BoomList *GetBoomsList() { return &boomslist_; }
+		BoomList *GetEnemyBooms() { return &enemybooms_; }
 };
 
 #endif

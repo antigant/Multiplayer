@@ -345,14 +345,14 @@ namespace Net {
 		struct PKT_S2C_RenderBoom NewRenderBoomData;
 		ToProcessSession->PacketMessage >> NewRenderBoomData;
 
-		// If it's myself then ignore
+		// If it's me then ignore
 		//if (thisapp->GetMyShip()->GetShipID() == NewRenderBoomData.OwnerShipID) return;
 
 		// Need to create a explosion sprite class here and a vector to store all the enemy missile explosion
 		Boom *boom = new Boom("boom.png", NewRenderBoomData.x, NewRenderBoomData.y, NewRenderBoomData.OwnerShipID);
 		boom->set_render(true);
 		boom->set_render_time(0.5f); // render for 5s
-		thisapp->GetBoomsList()->push_back(boom);
+		thisapp->GetEnemyBooms()->push_back(boom);
 	}
 }
 

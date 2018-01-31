@@ -45,7 +45,7 @@ Ship::Ship( int shiptype )
     shipid_ = 0;
 }
 
-Ship::Ship( int shiptype, std::string shipname, float startx, float starty, float startw )
+Ship::Ship( int shiptype, std::string shipname, float startx, float starty, float startw, float hp )
 {
     HGE* hge = hgeCreate( HGE_VERSION );
 
@@ -70,6 +70,7 @@ Ship::Ship( int shiptype, std::string shipname, float startx, float starty, floa
 
     shipname_ = shipname;
     shipid_ = 0;
+	Set_HP( hp );
 }
 
 
@@ -98,7 +99,9 @@ void Ship::Render()
     // render the ship.
 	sprite_->RenderEx( get_x(), get_y(), get_w());
     // print the ship name.
-    font_->printf( get_x(), get_y()+20, HGETEXT_LEFT, "%s", shipname_.c_str() );
+    font_->printf( get_x(), get_y()+20.f, HGETEXT_LEFT, "%s", shipname_.c_str() );
+	// print the ship hp
+	font_->printf( get_x(), get_y() - 20.f, HGETEXT_LEFT, "%.2f", hp_ );
 }
 
 /**

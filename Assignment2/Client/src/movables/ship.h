@@ -20,6 +20,7 @@ class Ship : public Movables
         std::string shipname_;
         int shipid_;           //!< Same number of SessionIndex (from Network Library).
         int shiptype_;
+		float hp_;
 
     public:
     	HTEXTURE tex_; //!< Handle to the sprite's texture
@@ -28,7 +29,7 @@ class Ship : public Movables
 
     public:
     	Ship( int shiptype = 1 );
-        Ship( int shiptype, std::string shipname, float startx = 400, float starty = 300, float startw = 0 );
+        Ship( int shiptype, std::string shipname, float startx = 400, float starty = 300, float startw = 0, float hp = 100.f );
     	~Ship();
 
     public:
@@ -41,6 +42,8 @@ class Ship : public Movables
         int         GetShipID              ( void                 ) { return shipid_;   }
         void        SetShipType            ( int shiptype         ) { shiptype_ = shiptype;  }
         int         GetShipType            ( void                 ) { return shiptype_; }
+		void        Set_HP                 ( float hp             ) { hp_ = hp;         }
+		float       Get_HP                 ( void                 ) { return hp_;       }
 };
 
 #endif
