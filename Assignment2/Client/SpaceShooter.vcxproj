@@ -30,6 +30,7 @@
     <ClCompile Include="src\net\send_packet.cpp" />
     <ClCompile Include="src\non_movables\boom.cpp" />
     <ClCompile Include="src\non_movables\non_movables.cpp" />
+    <ClCompile Include="src\non_movables\powerup_heal.cpp" />
     <ClCompile Include="src\non_movables\screen_text.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +47,7 @@
     <ClInclude Include="src\net\send_packet.h" />
     <ClInclude Include="src\non_movables\boom.h" />
     <ClInclude Include="src\non_movables\non_movables.h" />
+    <ClInclude Include="src\non_movables\powerup_heal.h" />
     <ClInclude Include="src\non_movables\screen_text.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

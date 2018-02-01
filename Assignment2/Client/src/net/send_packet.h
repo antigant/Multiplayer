@@ -9,6 +9,7 @@
 #include "..\movables\asteroid.h"
 #include "../movables/missile.h"
 #include "../non_movables/boom.h"
+#include "../non_movables/powerup_heal.h"
 
 // Function prototypes.
 namespace Net
@@ -23,6 +24,7 @@ namespace Net
 	void send_packet_render_boom( Boom *newBoom );
 	void send_packet_update_hp( Missile *missile );
 	void send_packet_respawn_ship( Ship *myship );
+	void send_packet_powerup_heal( Powerup_Heal *powerup );
 }
 
 

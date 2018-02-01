@@ -22,6 +22,8 @@
     <ClCompile Include="..\Shares\timer\timer.cpp" />
     <ClCompile Include="src\asteroid.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\powerup.cpp" />
+    <ClCompile Include="src\powerup_generator.cpp" />
     <ClCompile Include="src\process_packet.cpp" />
     <ClCompile Include="src\send_packet.cpp" />
   </ItemGroup>
@@ -31,6 +33,9 @@
     <ClInclude Include="..\Shares\timer\timer.h" />
     <ClInclude Include="src\asteroid.h" />
     <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\powerup.h" />
+    <ClInclude Include="src\powerup_generator.h" />
+    <ClInclude Include="src\powerup_heal.h" />
     <ClInclude Include="src\process_packet.h" />
     <ClInclude Include="src\send_packet.h" />
     <ClInclude Include="src\Ship.h" />

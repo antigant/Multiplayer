@@ -108,6 +108,14 @@ namespace Net {
 						case PACKET_ID_S2C_RESPAWN:
 							Respawn(thisapp, ToProcessSessoin);
 							break;
+
+						case PACKET_ID_S2C_NEWPOWERUP_HEAL:
+							NewPowerup_Heal(thisapp, ToProcessSessoin);
+							break;
+
+						case PACKET_ID_S2C_HEAL:
+							Heal(thisapp, ToProcessSessoin);
+							break;
                     }
 
                 }
@@ -423,6 +431,29 @@ namespace Net {
 		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_render(true);
 		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_dead(false);
 		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->reset_hp();
+	}
+	void NewPowerup_Heal(Application * thisapp, HNet::_ProcessSession * ToProcessSession)
+	{
+		struct PKT_S2C_NewPowerupHeal PowerupData;
+		ToProcessSession->PacketMessage >> PowerupData;
+
+		Powerup_Heal *powerup = new Powerup_Heal("powerup_heal.png", PowerupData.x, PowerupData.y, PowerupData.PowerupID, PowerupData.heal_);
+		powerup->set_render_time(20.0f);
+		thisapp->GetPowerup_HealList()->push_back(powerup);
+	}
+	void Heal(Application * thisapp, HNet::_ProcessSession * ToProcessSession)
+	{
+		struct PKT_S2C_Heal HealData;
+		ToProcessSession->PacketMessage >> HealData;
+
+		// If it's not me then update enemy's hp, else update myself
+		if (thisapp->GetMyShip()->GetShipID() != HealData.ShipID)
+		{
+			thisapp->FindEnemyShip(HealData.ShipID)->Add_HP(HealData.heal_);
+			thisapp->FindPowerup_Heal(HealData.PowerupID)->set_render(false);
+		}
+		else
+			thisapp->GetMyShip()->Add_HP(HealData.heal_);
 	}
 }
 

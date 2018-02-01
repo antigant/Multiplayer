@@ -8,6 +8,7 @@
 
 #include "non_movables\boom.h"
 #include "non_movables\screen_text.h"
+#include "non_movables\powerup_heal.h"
 
 enum _GAMESTATE {
     GAMESTATE_NONE = 0,
@@ -60,6 +61,9 @@ class Application
 		Screen_Text server_full;
 		Screen_Text dead_message;
 
+		typedef std::vector<Powerup_Heal*> Powerup_HealList;
+		Powerup_HealList powerups_;
+
     	bool Init();
     	static bool Loop();
     	void Shutdown();
@@ -87,6 +91,9 @@ class Application
 		// Respawn
 		void Respawn(Ship *ship);
 
+		// Powerup
+		void Heal(Powerup_Heal *powerup);
+
     public:
         void SetGameState( int gamestate ) { gamestate_ = gamestate; }
         int  GetGameState( void          ) { return gamestate_; }
@@ -102,6 +109,8 @@ class Application
 		BoomList *GetEnemyBooms() { return &enemybooms_; }
 		BoomList *GetMyBooms() { return &mybooms_; }
 		Screen_Text *GetServerFull() { return &server_full; }
+		Powerup_HealList *GetPowerup_HealList() { return &powerups_; }
+		Powerup_Heal *FindPowerup_Heal(int powerupid);
 };
 
 #endif

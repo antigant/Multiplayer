@@ -15,6 +15,7 @@ enum _PACKET_ID_CLIENT_TO_SERVER {
 	PACKET_ID_C2S_RENDERBOOM,
 	PACKET_ID_C2S_UPDATEHP,
 	PACKET_ID_C2S_RESPAWN,
+	PACKET_ID_C2S_HEAL,
 
     PACKET_ID_C2S_END                   // This is the indicator for the end of the list. Do not put any packet ID after this.
 
@@ -104,6 +105,14 @@ struct PKT_C2S_Respawn
 	float angular_velocity;
 	bool dead_;
 	bool render_;
+};
+
+struct PKT_C2S_Heal
+{
+	// ID of the ship that powerup collides with
+	int ShipID;
+	int PowerupID;
+	float heal_;
 };
 
 struct PKT_C2S_DeleteMissile

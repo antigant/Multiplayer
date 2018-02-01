@@ -115,3 +115,19 @@ void SendPacketProcess_ServerFull_Message(const int SessionID)
 	Packet << PacketData;
 	NetObj.SendPacket(SessionID, Packet);
 }
+
+void SendPacketProcess_NewPowerupHeal(Powerup_Heal *powerup)
+{
+	// Send message to all client
+	struct HNet::_PacketMessage Packet;
+	struct PKT_S2C_NewPowerupHeal PacketData;
+	int PacketID = PACKET_ID_S2C_NEWPOWERUP_HEAL;
+	PacketData.PowerupID = powerup->get_ID();
+	PacketData.x = powerup->get_x();
+	PacketData.y = powerup->get_y();
+	PacketData.heal_ = powerup->get_healamt();
+
+	Packet << PacketID;
+	Packet << PacketData;
+	NetObj.SendPacketToAll(Packet);
+}

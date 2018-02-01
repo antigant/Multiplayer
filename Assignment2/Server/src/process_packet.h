@@ -15,4 +15,5 @@ void ReceviedPacketProcess_NewMissile(struct HNet::_ProcessSession *ToProcessSes
 void ReceviedPacketProcess_RenderBoom(struct HNet::_ProcessSession *ToProcessSessoin);
 void ReceviedPacketProcess_UpdateHP(struct HNet::_ProcessSession *ToProcessSessoin);
 void ReceviedPacketProcess_Respawn(struct HNet::_ProcessSession *ToProcessSessoin);
+void ReceviedPacketProcess_Heal(struct HNet::_ProcessSession *ToProcessSessoin);
 #endif

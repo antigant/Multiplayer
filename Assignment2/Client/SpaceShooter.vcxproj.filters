@@ -37,6 +37,9 @@
     <ClCompile Include="src\non_movables\screen_text.cpp">
       <Filter>Non Moveables</Filter>
     </ClCompile>
+    <ClCompile Include="src\non_movables\powerup_heal.cpp">
+      <Filter>Non Moveables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\net\send_packet.h">
@@ -79,6 +82,9 @@
       <Filter>Non Moveables</Filter>
     </ClInclude>
     <ClInclude Include="src\non_movables\screen_text.h">
+      <Filter>Non Moveables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\non_movables\powerup_heal.h">
       <Filter>Non Moveables</Filter>
     </ClInclude>
   </ItemGroup>

@@ -177,4 +177,17 @@ namespace Net
 		Packet << PacketData;
 		NetObj.SendPacket(Packet);
 	}
+	void send_packet_powerup_heal(Powerup_Heal * powerup)
+	{
+		struct PKT_C2S_Heal PacketData;
+		PacketData.ShipID = powerup->get_shipid();
+		PacketData.PowerupID = powerup->get_powerupid();
+		PacketData.heal_ = powerup->get_healamt();
+		
+		struct HNet::_PacketMessage Packet;
+		int PacketID = PACKET_ID_C2S_HEAL;
+		Packet << PacketID;
+		Packet << PacketData;
+		NetObj.SendPacket(Packet);
+	}
 }

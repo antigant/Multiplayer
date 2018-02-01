@@ -24,6 +24,8 @@ enum _PACKET_ID_SERVER_TO_CLIENT {
 	PACKET_ID_S2C_UPDATEHP,
 	PACKET_ID_S2C_SERVERFULL,
 	PACKET_ID_S2C_RESPAWN,
+	PACKET_ID_S2C_NEWPOWERUP_HEAL,
+	PACKET_ID_S2C_HEAL,
 
     PACKET_ID_S2C_END
 };
@@ -71,6 +73,14 @@ struct PKT_S2C_NewAsteroid {
     float velocity_x;
     float velocity_y;
     float angular_velocity;
+};
+
+struct PKT_S2C_NewPowerupHeal
+{
+	int PowerupID;
+	float x;
+	float y;
+	float heal_;
 };
 
 struct PKT_S2C_EnemyShipDisconnect {
@@ -153,6 +163,14 @@ struct PKT_S2C_Respawn
 	float angular_velocity;
 	bool dead_;
 	bool render_;
+};
+
+struct PKT_S2C_Heal
+{
+	// ID of the ship that powerup collides with
+	int ShipID;
+	int PowerupID;
+	float heal_;
 };
 
 #pragma pack(pop) // Return back to default memory alignment.

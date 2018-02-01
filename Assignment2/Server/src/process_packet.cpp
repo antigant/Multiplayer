@@ -69,6 +69,12 @@ void ReceviedPacketProcess( struct HNet::_ProcessSession *ToProcessSessoin )
 			ReceviedPacketProcess_Respawn(ToProcessSessoin);
 		}
 		break;
+
+		case PACKET_ID_C2S_HEAL:
+		{
+			ReceviedPacketProcess_Heal(ToProcessSessoin);
+		}
+		break;
     }
 }
 
@@ -365,4 +371,23 @@ void ReceviedPacketProcess_Respawn(HNet::_ProcessSession * ToProcessSessoin)
 	SendPacket << PacketID;
 	SendPacket << SendData;
 	NetObj.SendPacketToAllExcept(SendPacket, SendData.OwnerShipID);
+}
+
+void ReceviedPacketProcess_Heal(HNet::_ProcessSession * ToProcessSessoin)
+{
+	struct PKT_C2S_Heal RecvData;
+	ToProcessSessoin->PacketMessage >> RecvData;
+
+	// Sending to everyone
+	struct HNet::_PacketMessage SendPacket;
+	struct PKT_S2C_Heal SendData;
+	int PacketID = PACKET_ID_S2C_HEAL;
+
+	SendData.ShipID = RecvData.ShipID;
+	SendData.PowerupID = RecvData.PowerupID;
+	SendData.heal_ = RecvData.heal_;
+
+	SendPacket << PacketID;
+	SendPacket << SendData;
+	NetObj.SendPacketToAll(SendPacket);
 }

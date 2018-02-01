@@ -352,6 +352,38 @@ bool Application::Update()
 		/**
 		* Assignment 2
 		*/
+		// Update power ups
+		bool powerup_collided = false;
+		for (int i = 0; i < powerups_.size(); ++i)
+		{
+			if (!powerups_[i]->get_render())
+			{
+				delete powerups_[i];
+				powerups_[i] = NULL;
+				powerups_.erase(powerups_.begin() + i);
+			}
+
+			// Check powerup against my ship
+			else if (powerups_[i]->Update(timedelta))
+			{
+				if (HasCollided(powerups_[i], myship_))
+				{	// Send to all, update player's health
+					powerups_[i]->set_shipid(myship_->GetShipID());
+					Heal(powerups_[i]);
+
+					delete powerups_[i];
+					powerups_[i] = NULL;
+					powerups_.erase(powerups_.begin() + i);
+				}
+			}
+			else
+			{	// Times up, not rendering anymore
+				delete powerups_[i];
+				powerups_[i] = NULL;
+				powerups_.erase(powerups_.begin() + i);
+			}
+		}
+
 		// Update booms
 		for (int i = 0; i < enemybooms_.size(); ++i)
 		{	// Enemy
@@ -418,6 +450,10 @@ void Application::Render()
 		// Render my missile
 		if (myMissile) myMissile->Render();
 
+		//std::cout << powerups_.size() << std::endl;
+		// Render powerups
+		for (auto powerups : powerups_) powerups->Render();
+
 		// Render booms effect
 		for (auto booms : enemybooms_) booms->Render();
 
@@ -446,6 +482,15 @@ Ship * Application::FindEnemyShip( int ShipID )
     return nullptr;
 }
 
+Powerup_Heal *Application::FindPowerup_Heal(int powerupid)
+{
+	for (auto powerup : powerups_)
+	{
+		if (powerupid == powerup->get_powerupid())
+			return powerup;
+	}
+	return nullptr;
+}
 
 /** 
 * Main game loop
@@ -580,4 +625,9 @@ void Application::UpdateHP(Ship *ship, float damage)
 void Application::Respawn(Ship *ship)
 {
 	Net::send_packet_respawn_ship(ship);
+}
+
+void Application::Heal(Powerup_Heal *powerup)
+{
+	Net::send_packet_powerup_heal(powerup);
 }

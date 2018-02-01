@@ -15,6 +15,7 @@ enum NON_MOVABLE_OBJECT_TYPE {
 	NON_MOVABLE_OBJECT_TYPE_EMPTY = 0,
 
 	NON_MOVABLE_OBJECT_BOOM,
+	NON_MOVABLE_OBJECT_POWERUP_HEAL,
 
 	NON_MOVABLE_OBJECT_TYPE_MAX
 };
@@ -31,6 +32,7 @@ private:
 	} value_;
 
 	bool render;
+	float time_;
 
 public:
 	NonMovables();

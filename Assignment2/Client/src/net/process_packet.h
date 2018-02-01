@@ -23,6 +23,8 @@ namespace Net {
 	void RenderBoom(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
 	void UpdateHP(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
 	void Respawn(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
+	void NewPowerup_Heal(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
+	void Heal(Application *thisapp, struct HNet::_ProcessSession *ToProcessSession);
 }
 
 

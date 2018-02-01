@@ -13,6 +13,11 @@
 #include "asteroid.h"
 #include "timer\timer.h"
 
+// Assignment 2
+#include "powerup_generator.h"
+#include "powerup.h"
+#include "powerup_heal.h"
+
 #include <vector>
 
 #ifdef _DEBUG
@@ -129,6 +134,15 @@ int main( void )
                 SendPacketProcess_AsteroidMovement( asteroid );
             }
         }
+
+		// Generate power up every t amount of time
+		if (Powerup_Generator::GetInstance()->Update(time_delta))
+		{
+			float x = (float)((rand() % 600) + 100);
+			float y = (float)((rand() % 400) + 100);
+			if (Powerup_Generator::GetInstance()->get_rand() == 0)
+				SendPacketProcess_NewPowerupHeal(new Powerup_Heal(10.0f, Powerup_Generator::GetInstance()->get_ID(), x, y));
+		}
 
         Sleep( 100 ); // You can check a timer to nomalize the looping spped (FPS).
     }
