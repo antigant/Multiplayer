@@ -266,7 +266,7 @@ bool Application::Update()
 							myMissile->set_shipid(itr_enemyship->GetShipID());
 							// functions that update hp
 							UpdateHP(myMissile);
-							UpdateHP(itr_enemyship, myMissile->get_damage());
+							//UpdateHP(itr_enemyship, myMissile->get_damage());
 
 							delete myMissile;
 							myMissile = NULL;
@@ -315,6 +315,35 @@ bool Application::Update()
 							enemymissiles_.erase(enemymissiles_.begin() + i);
 							// render boom!
 							break;
+						}
+					}
+
+					if (true == missile_collided) continue;
+
+					if (enemymissiles_[i])
+					{
+						for (auto itr_enemyship : enemyships_)
+						{
+							if (!itr_enemyship->get_render())
+								continue;
+							if (itr_enemyship->GetShipID() == enemymissiles_[i]->get_ownerid())
+								continue;
+							if (HasCollided(enemymissiles_[i], itr_enemyship))
+							{
+								missile_collided = true;
+								CreateBoom(enemymissiles_[i]->get_x(), enemymissiles_[i]->get_y(), enemymissiles_[i]->get_ownerid());
+								enemymissiles_.erase(enemymissiles_.begin() + i);
+
+								// Due damage to enemy ship
+								//myMissile->set_shipid(itr_enemyship->GetShipID());
+								//// functions that update hp
+								//UpdateHP(myMissile);
+								//UpdateHP(itr_enemyship, myMissile->get_damage());
+
+								//delete myMissile;
+								//myMissile = NULL;
+								break;
+							}
 						}
 					}
 			}

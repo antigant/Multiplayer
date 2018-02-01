@@ -298,7 +298,7 @@ void ReceviedPacketProcess_NewMissile(struct HNet::_ProcessSession *ToProcessSes
 
 	SendPacket << PacketID;
 	SendPacket << SendData;
-	NetObj.SendPacketToAll(SendPacket); // To send to everyone
+	NetObj.SendPacketToAllExcept(SendPacket, SendData.OwnerShipID); // To send to everyone
 }
 
 // Assignment 2
@@ -338,7 +338,7 @@ void ReceviedPacketProcess_UpdateHP(HNet::_ProcessSession *ToProcessSessoin)
 
 	SendPacket << PacketID;
 	SendPacket << SendData;
-	NetObj.SendPacket(SendData.ShipID, SendPacket);
+	NetObj.SendPacketToAll(SendPacket);
 }
 
 void ReceviedPacketProcess_Respawn(HNet::_ProcessSession * ToProcessSessoin)

@@ -374,16 +374,37 @@ namespace Net {
 		struct PKT_S2C_UpdateHP UpdateHPData;
 		ToProcessSession->PacketMessage >> UpdateHPData;
 
-		// Safety check, if missile didnt collide with me then return (very unlikely)
-		if (thisapp->GetMyShip()->GetShipID() != UpdateHPData.ShipID) return;
-
-		// Update the ship hp
-		thisapp->GetMyShip()->Add_HP(-UpdateHPData.damage);
-		if (thisapp->GetMyShip()->Get_HP() <= 0.f)
+		// if its not me then update enemy's ship else update my ship
+		if (thisapp->GetMyShip()->GetShipID() != UpdateHPData.ShipID)
 		{
-			thisapp->GetMyShip()->set_render(false);
-			thisapp->GetMyShip()->set_dead(true);
+			thisapp->FindEnemyShip(UpdateHPData.ShipID)->Add_HP(-UpdateHPData.damage);
+			if (thisapp->FindEnemyShip(UpdateHPData.ShipID)->Get_HP() <= 0.f)
+			{
+				thisapp->FindEnemyShip(UpdateHPData.ShipID)->set_render(false);
+				thisapp->FindEnemyShip(UpdateHPData.ShipID)->set_dead(true);
+			}
 		}
+		else
+		{
+			// Update the ship hp
+			thisapp->GetMyShip()->Add_HP(-UpdateHPData.damage);
+			if (thisapp->GetMyShip()->Get_HP() <= 0.f)
+			{
+				thisapp->GetMyShip()->set_render(false);
+				thisapp->GetMyShip()->set_dead(true);
+			}
+		}
+
+		//// Safety check, if missile didnt collide with me then return (very unlikely)
+		//if (thisapp->GetMyShip()->GetShipID() != UpdateHPData.ShipID) return;
+
+		//// Update the ship hp
+		//thisapp->GetMyShip()->Add_HP(-UpdateHPData.damage);
+		//if (thisapp->GetMyShip()->Get_HP() <= 0.f)
+		//{
+		//	thisapp->GetMyShip()->set_render(false);
+		//	thisapp->GetMyShip()->set_dead(true);
+		//}
 	}
 	void Respawn(Application * thisapp, HNet::_ProcessSession * ToProcessSession)
 	{
