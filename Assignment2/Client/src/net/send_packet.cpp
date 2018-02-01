@@ -177,7 +177,7 @@ namespace Net
 		Packet << PacketData;
 		NetObj.SendPacket(Packet);
 	}
-	void send_packet_powerup_heal(Powerup_Heal * powerup)
+	void send_packet_powerup_heal(Powerup_Heal *powerup)
 	{
 		struct PKT_C2S_Heal PacketData;
 		PacketData.ShipID = powerup->get_shipid();
