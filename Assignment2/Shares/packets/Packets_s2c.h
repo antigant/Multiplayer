@@ -4,17 +4,17 @@
 
 
 enum _PACKET_ID_SERVER_TO_CLIENT {
-    PACKET_ID_S2C_EMPTY = 0,            // Start of the list. Do not remove this.
+	PACKET_ID_S2C_EMPTY = 0,            // Start of the list. Do not remove this.
 
-    PACKET_ID_S2C_WELCOMEMESSAGE,
-    PACKET_ID_S2C_ENTERGAMEOK,
-    PACKET_ID_S2C_ENEMYSHIP,
-    PACKET_ID_S2C_NEWENEMYSHIP,
-    PACKET_ID_S2C_NEWASTEROID,
-    PACKET_ID_S2C_DISCONNECTENEMYSHIP,
-    PACKET_ID_S2C_MOVEMENT,
-    PACKET_ID_S2C_COLLIDED,
-    PACKET_ID_S2C_ASTEROIDMOVEMENT,
+	PACKET_ID_S2C_WELCOMEMESSAGE,
+	PACKET_ID_S2C_ENTERGAMEOK,
+	PACKET_ID_S2C_ENEMYSHIP,
+	PACKET_ID_S2C_NEWENEMYSHIP,
+	PACKET_ID_S2C_NEWASTEROID,
+	PACKET_ID_S2C_DISCONNECTENEMYSHIP,
+	PACKET_ID_S2C_MOVEMENT,
+	PACKET_ID_S2C_COLLIDED,
+	PACKET_ID_S2C_ASTEROIDMOVEMENT,
 	PACKET_ID_S2C_ASTEROIDCOLLIDED,
 	PACKET_ID_S2C_NEWMISSILE,
 
@@ -22,6 +22,8 @@ enum _PACKET_ID_SERVER_TO_CLIENT {
 	// Use to render boom for t seconds
 	PACKET_ID_S2C_RENDERBOOM,
 	PACKET_ID_S2C_UPDATEHP,
+	PACKET_ID_S2C_SERVERFULL,
+	PACKET_ID_S2C_RESPAWN,
 
     PACKET_ID_S2C_END
 };
@@ -34,6 +36,10 @@ enum _PACKET_ID_SERVER_TO_CLIENT {
 #pragma pack(push, 1) // Pack the memory alignment. 
 struct PKT_S2C_WelcomeMessage {
     int ShipID; // ShipID is same as SessionID in the server.
+};
+
+struct PKT_S2C_ServerFull {
+	int ShipID;
 };
 
 struct PKT_S2C_EnemyShip {
@@ -134,6 +140,19 @@ struct PKT_S2C_UpdateHP
 	// ID of the ship that missile collides with
 	int ShipID; 
 	float damage;
+};
+
+struct PKT_S2C_Respawn
+{
+	int OwnerShipID;
+	float x;
+	float y;
+	float w;
+	float velocity_x;
+	float velocity_y;
+	float angular_velocity;
+	bool dead_;
+	bool render_;
 };
 
 #pragma pack(pop) // Return back to default memory alignment.

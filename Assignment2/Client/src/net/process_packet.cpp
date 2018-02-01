@@ -49,6 +49,13 @@ namespace Net {
                         case PACKET_ID_S2C_ENTERGAMEOK:
                             thisapp->SetGameState( GAMESTATE_INPLAY );
                             break;
+
+						case PACKET_ID_S2C_SERVERFULL:
+							thisapp->GetServerFull()->set_text("Server is currently full, press esc to continue");
+							thisapp->GetServerFull()->set_x(100.f);
+							thisapp->GetServerFull()->set_y(250.f);
+							thisapp->SetGameState( GAMESTATE_SERVERFULL );
+							break;
                     }
                 }
                 break;
@@ -97,11 +104,14 @@ namespace Net {
 						case PACKET_ID_S2C_UPDATEHP:
 							UpdateHP(thisapp, ToProcessSessoin);
 							break;
+
+						case PACKET_ID_S2C_RESPAWN:
+							Respawn(thisapp, ToProcessSessoin);
+							break;
                     }
 
                 }
                 break;
-
             }
 
             // Step 8. After finish the process with packet, You should delete the session message.
@@ -350,7 +360,7 @@ namespace Net {
 		ToProcessSession->PacketMessage >> NewRenderBoomData;
 
 		// If it's me then ignore
-		//if (thisapp->GetMyShip()->GetShipID() == NewRenderBoomData.OwnerShipID) return;
+		if (thisapp->GetMyShip()->GetShipID() != NewRenderBoomData.OwnerShipID) return;
 
 		// Need to create a explosion sprite class here and a vector to store all the enemy missile explosion
 		Boom *boom = new Boom("boom.png", NewRenderBoomData.x, NewRenderBoomData.y, NewRenderBoomData.OwnerShipID);
@@ -370,7 +380,28 @@ namespace Net {
 		// Update the ship hp
 		thisapp->GetMyShip()->Add_HP(-UpdateHPData.damage);
 		if (thisapp->GetMyShip()->Get_HP() <= 0.f)
+		{
 			thisapp->GetMyShip()->set_render(false);
+			thisapp->GetMyShip()->set_dead(true);
+		}
+	}
+	void Respawn(Application * thisapp, HNet::_ProcessSession * ToProcessSession)
+	{
+		struct PKT_S2C_Respawn RespawnData;
+		ToProcessSession->PacketMessage >> RespawnData;
+
+		// Safty check, if it's me then return
+		if (thisapp->GetMyShip()->GetShipID() == RespawnData.OwnerShipID) return;
+
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_x(RespawnData.x);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_y(RespawnData.y);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_w(RespawnData.w);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_velocity_x(RespawnData.velocity_x);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_velocity_y(RespawnData.velocity_y);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_angular_velocity(RespawnData.angular_velocity);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_render(true);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->set_dead(false);
+		thisapp->FindEnemyShip(RespawnData.OwnerShipID)->reset_hp();
 	}
 }
 

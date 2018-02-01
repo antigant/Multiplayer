@@ -87,7 +87,10 @@ int main( void )
 #ifdef _DEBUG
                     log( "\n New connection connected: Index:%d. Total Connection now:%d", ToProcessSessoin->SessionIndex, NetObj.GetConnectedCount() );
 #endif
-                    SendPacketProcess_NewAccept( ToProcessSessoin->SessionIndex );
+					if (NetObj.GetConnectedCount() < 4)
+						SendPacketProcess_NewAccept( ToProcessSessoin->SessionIndex );
+					else
+						SendPacketProcess_ServerFull( ToProcessSessoin->SessionIndex );
                 }
                 break;
 

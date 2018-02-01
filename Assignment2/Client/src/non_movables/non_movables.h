@@ -53,7 +53,7 @@ public:
 	void  set_render( bool render            ) { this->render = render;            }
 
 public:
-	bool Update( float timedelta );
+	virtual bool Update( float timedelta );
 };
 
 #endif

@@ -63,6 +63,12 @@ void ReceviedPacketProcess( struct HNet::_ProcessSession *ToProcessSessoin )
 			ReceviedPacketProcess_UpdateHP(ToProcessSessoin);
 		}
 		break;
+
+		case PACKET_ID_C2S_RESPAWN:
+		{
+			ReceviedPacketProcess_Respawn(ToProcessSessoin);
+		}
+		break;
     }
 }
 
@@ -313,7 +319,7 @@ void ReceviedPacketProcess_RenderBoom(struct HNet::_ProcessSession *ToProcessSes
 
 	SendPacket << PacketID;
 	SendPacket << SendData;
-	NetObj.SendPacketToAll(SendPacket); // To send to everyone!
+	NetObj.SendPacketToAllExcept(SendPacket, SendData.OwnerShipID); // To send to everyone!
 }
 
 void ReceviedPacketProcess_UpdateHP(HNet::_ProcessSession *ToProcessSessoin)
@@ -333,4 +339,30 @@ void ReceviedPacketProcess_UpdateHP(HNet::_ProcessSession *ToProcessSessoin)
 	SendPacket << PacketID;
 	SendPacket << SendData;
 	NetObj.SendPacket(SendData.ShipID, SendPacket);
+}
+
+void ReceviedPacketProcess_Respawn(HNet::_ProcessSession * ToProcessSessoin)
+{
+	// Initialising the packet recevied from client
+	struct PKT_C2S_Respawn RecvData;
+	ToProcessSessoin->PacketMessage >> RecvData;
+
+	// Sending to everyone
+	struct HNet::_PacketMessage SendPacket;
+	struct PKT_S2C_Respawn SendData;
+	int PacketID = PACKET_ID_S2C_RESPAWN;
+
+	SendData.OwnerShipID = RecvData.OwnerShipID;
+	SendData.x = RecvData.x;
+	SendData.y = RecvData.y;
+	SendData.w = RecvData.w;
+	SendData.velocity_x = RecvData.velocity_x;
+	SendData.velocity_y = RecvData.velocity_y;
+	SendData.angular_velocity = RecvData.angular_velocity;
+	SendData.render_ = RecvData.render_;
+	SendData.dead_ = RecvData.dead_;
+
+	SendPacket << PacketID;
+	SendPacket << SendData;
+	NetObj.SendPacketToAllExcept(SendPacket, SendData.OwnerShipID);
 }

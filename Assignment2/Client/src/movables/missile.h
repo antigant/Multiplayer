@@ -34,6 +34,7 @@ class Missile : public Movables
 		int get_shipid() { return shipid_; }
 
     public: // Interface functions.
+		virtual bool Update(float timedelta, float spritewidth, float spriteheight);
     	void Render();
 };
 

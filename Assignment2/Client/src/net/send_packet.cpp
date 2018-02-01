@@ -156,4 +156,25 @@ namespace Net
 		Packet << PacketData;
 		NetObj.SendPacket(Packet);
 	}
+	void send_packet_respawn_ship(Ship * myship)
+	{
+		// Preparing the packet to be sent to server
+		struct PKT_C2S_Respawn PacketData;
+		PacketData.OwnerShipID = myship->GetShipID();
+		PacketData.x = myship->get_x();
+		PacketData.y = myship->get_y();
+		PacketData.w = myship->get_w();
+		PacketData.velocity_x = myship->get_velocity_x();
+		PacketData.velocity_y = myship->get_velocity_y();
+		PacketData.angular_velocity = myship->get_angular_velocity();
+		PacketData.render_ = myship->get_render();
+		PacketData.dead_ = myship->get_dead();
+
+		// Send over to server now
+		struct HNet::_PacketMessage Packet;
+		int PacketID = PACKET_ID_C2S_RESPAWN;
+		Packet << PacketID;
+		Packet << PacketData;
+		NetObj.SendPacket(Packet);
+	}
 }

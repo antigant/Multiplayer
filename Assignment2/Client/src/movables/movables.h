@@ -52,6 +52,7 @@ class Movables
 
 		// Assignment 2
 		bool render_;
+		float render_time;
 
     public:
         Movables();
@@ -119,9 +120,12 @@ class Movables
 		void set_render( bool render ) { render_ = render; }
 		bool get_render( void ) { return render_; }
 
+		void set_render_time( float render_time ) { this->render_time = render_time; }
+		float get_render_time( void ) { return render_time; }
+
     public:
         void do_interpolate_update();
-        bool Update( float timedelta, float spritewidth, float spriteheight );
+        virtual bool Update( float timedelta, float spritewidth, float spriteheight );
         void stop_moving( void );
         bool compare_xyw( void );
 

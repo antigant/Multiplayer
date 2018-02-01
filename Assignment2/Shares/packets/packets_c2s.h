@@ -14,6 +14,7 @@ enum _PACKET_ID_CLIENT_TO_SERVER {
 	// Use to render boom for t seconds
 	PACKET_ID_C2S_RENDERBOOM,
 	PACKET_ID_C2S_UPDATEHP,
+	PACKET_ID_C2S_RESPAWN,
 
     PACKET_ID_C2S_END                   // This is the indicator for the end of the list. Do not put any packet ID after this.
 
@@ -90,6 +91,19 @@ struct PKT_C2S_UpdateHP
 	// ID of the ship that missile collides with
 	int ShipID; 
 	float damage;
+};
+
+struct PKT_C2S_Respawn
+{
+	int OwnerShipID;
+	float x;
+	float y;
+	float w;
+	float velocity_x;
+	float velocity_y;
+	float angular_velocity;
+	bool dead_;
+	bool render_;
 };
 
 struct PKT_C2S_DeleteMissile

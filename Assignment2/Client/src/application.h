@@ -7,11 +7,15 @@
 #include <vector>
 
 #include "non_movables\boom.h"
+#include "non_movables\screen_text.h"
 
 enum _GAMESTATE {
     GAMESTATE_NONE = 0,
     GAMESTATE_INITIALIZING,
     GAMESTATE_INPLAY,
+	
+	// Assignment 2
+	GAMESTATE_SERVERFULL,
     GAMESTATE_QUITGAME
 };
 
@@ -51,6 +55,10 @@ class Application
 		// Add relevant variables for explosion, typedef std::vector<Boom*> BoomList; etc..
 		typedef std::vector<Boom*> BoomList;
 		BoomList enemybooms_;
+		BoomList mybooms_;
+
+		Screen_Text server_full;
+		Screen_Text dead_message;
 
     	bool Init();
     	static bool Loop();
@@ -76,6 +84,9 @@ class Application
 		void UpdateHP(Missile *missile);
 		void UpdateHP(Ship *ship, float damage);
 
+		// Respawn
+		void Respawn(Ship *ship);
+
     public:
         void SetGameState( int gamestate ) { gamestate_ = gamestate; }
         int  GetGameState( void          ) { return gamestate_; }
@@ -89,6 +100,8 @@ class Application
 
 		// Assignment 2
 		BoomList *GetEnemyBooms() { return &enemybooms_; }
+		BoomList *GetMyBooms() { return &mybooms_; }
+		Screen_Text *GetServerFull() { return &server_full; }
 };
 
 #endif

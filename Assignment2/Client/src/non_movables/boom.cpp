@@ -3,7 +3,7 @@
 #include <hgesprite.h>
 #include <math.h>
 
-Boom::Boom(char * filename, float x, float y, int ownerid_)
+Boom::Boom(char *filename, float x, float y, int ownerid_)
 {
 	HGE *hge = hgeCreate(HGE_VERSION);
 
@@ -22,7 +22,7 @@ Boom::Boom(char * filename, float x, float y, int ownerid_)
 
 Boom::~Boom()
 {
-	HGE* hge = hgeCreate(HGE_VERSION);
+	HGE *hge = hgeCreate(HGE_VERSION);
 	hge->Texture_Free(tex_);
 	hge->Release();
 }

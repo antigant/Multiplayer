@@ -22,6 +22,8 @@ class Ship : public Movables
         int shiptype_;
 		float maxhp_;
 		float hp_;
+		float defaulthp_;
+		bool dead_;
 
     public:
     	HTEXTURE tex_; //!< Handle to the sprite's texture
@@ -39,20 +41,24 @@ class Ship : public Movables
 
         void        SetShipName            ( std::string shipname );
         std::string GetShipName            ( void                 );
-        void        SetShipID              ( int shipid           ) { shipid_ = shipid; }
-        int         GetShipID              ( void                 ) { return shipid_;   }
+        void        SetShipID              ( int shipid           ) { shipid_ = shipid;      }
+        int         GetShipID              ( void                 ) { return shipid_;        }
         void        SetShipType            ( int shiptype         ) { shiptype_ = shiptype;  }
-        int         GetShipType            ( void                 ) { return shiptype_; }
+        int         GetShipType            ( void                 ) { return shiptype_;      }
 
 		/************ Assignment2 *************/
-		void        Set_HP                 ( float hp             ) { hp_ = hp;         }
-		float       Get_HP                 ( void                 ) { return hp_;       }
-		void Add_HP                        ( float hp             ) 
+		void        Set_HP                 ( float hp             ) { hp_ = hp;              }
+		float       Get_HP                 ( void                 ) { return hp_;            }
+		void        Add_HP                 ( float hp             ) 
 																	{
 																		hp_ += hp; 
 																		if (hp_ >= maxhp_)
 																			hp_ = maxhp_;
 																	}
+		void set_dead                      ( bool dead            ) { dead_ = dead;          }
+		bool get_dead                      ( void                 ) { return dead_;          }
+
+		void reset_hp();
 };
 
 #endif

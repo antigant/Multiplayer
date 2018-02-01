@@ -70,7 +70,7 @@ bool Application::Init()
 	hge_->System_SetState(HGE_USESOUND, false);
 	hge_->System_SetState(HGE_TITLE, "SpaceShooter");
 	hge_->System_SetState(HGE_LOGFILE, "SpaceShooter.log");
-    hge_->System_SetState( HGE_DONTSUSPEND, true );
+    hge_->System_SetState(HGE_DONTSUSPEND, true );
 	
     if( false == hge_->System_Initiate() )
     {
@@ -86,6 +86,9 @@ bool Application::Init()
     float starty = (float)(( rand() % 400 ) + 100);
     float startw = 0.0f;
     myship_ = new Ship( shiptype, "MyShip", startx, starty, startw );
+	dead_message.set_text("Press R to respawn...");
+	dead_message.set_x(300.f);
+	dead_message.set_y(275.f);
 
     // Initialize asteroids.
     //asteroids_.push_back( new Asteroid( "asteroid.png", 100, 100, 1 ) );
@@ -159,6 +162,30 @@ bool Application::Update()
 		else
 			keydown_enter = false;
 
+		if (hge_->Input_GetKeyState(HGEK_R))
+		{	// Respawn player
+			if (myship_->get_dead()) // if dead then random position on world, then send to server
+			{
+				float x = (float)((rand() % 600) + 100);
+				float y = (float)((rand() % 400) + 100);
+				float w = 0.0f;
+
+				// Set new position and make the ship stop moving
+				myship_->set_x(x);
+				myship_->set_y(y);
+				myship_->set_w(w);
+				myship_->stop_moving();
+
+				// To make it render on screen and not letting the player triggering this func agn
+				myship_->set_render(true);
+				myship_->set_dead(false);
+				myship_->reset_hp();
+
+				// Send client's ship data to other connecting clients
+				Respawn(myship_);
+			}
+		}
+
         // Update my space ship.
         bool AmIMoving = false;
         if( true == ( AmIMoving = myship_->Update( timedelta, myship_->sprite_->GetWidth(), myship_->sprite_->GetHeight() ) ) )
@@ -204,7 +231,13 @@ bool Application::Update()
 		// Update my missile.
 		if (myMissile)
 		{
-			if (myMissile->Update(timedelta, myMissile->sprite_->GetWidth(), myMissile->sprite_->GetHeight()))
+			if (!myMissile->get_render())
+			{
+				delete myMissile;
+				myMissile = NULL;
+			}
+
+			else if (myMissile->Update(timedelta, myMissile->sprite_->GetWidth(), myMissile->sprite_->GetHeight()))
 			{
 				// Collision check with asteroids
 				for (auto itr_asteroids : asteroids_)
@@ -248,7 +281,13 @@ bool Application::Update()
 		bool missile_collided = false;
 		for (unsigned int i = 0; i < enemymissiles_.size(); ++i)
 		{
-			if (enemymissiles_[i]->Update(timedelta, enemymissiles_[i]->sprite_->GetWidth(), enemymissiles_[i]->sprite_->GetHeight()))
+			if (!enemymissiles_[i]->get_render())
+			{
+				enemymissiles_.erase(enemymissiles_.begin() + i);
+				continue;
+			}
+
+			else if (enemymissiles_[i]->Update(timedelta, enemymissiles_[i]->sprite_->GetWidth(), enemymissiles_[i]->sprite_->GetHeight()))
 			{
 					for (auto itr_asteroids : asteroids_)
 					{
@@ -295,9 +334,26 @@ bool Application::Update()
 			}
 		}
 
+		for (int i = 0; i < mybooms_.size(); ++i)
+		{	// Client's
+			if (!mybooms_[i]->Update(timedelta))
+			{
+				delete mybooms_[i];
+				mybooms_[i] = NULL;
+				mybooms_.erase(mybooms_.begin() + i);
+			}
+		}
+
         // Now send the update to server. But not every frame.
         if( !myship_->compare_xyw() ) Net::send_packet_myship_movement( myship_ );
     }
+
+	else if (GAMESTATE_SERVERFULL == GetGameState())
+	{
+		// Check key inputs and process the movements of spaceship.
+		if (hge_->Input_GetKeyState(HGEK_ESCAPE))
+			return true;
+	}
 
 	return false;
 }
@@ -313,23 +369,37 @@ void Application::Render()
 	hge_->Gfx_BeginScene();
 	hge_->Gfx_Clear(0);
 
-    // Render my space ship.
-    myship_->Render();
+	if (GAMESTATE_INPLAY == GetGameState())
+	{
+		if (myship_->get_dead())
+			dead_message.Render();
 
-    // Render enemy ships.
-    for( auto enemyship : enemyships_ ) enemyship->Render();
+		// Render my space ship.
+		myship_->Render();
 
-    // Render asteroids.
-    for( auto asteroid : asteroids_ ) asteroid->Render();
+		// Render enemy ships.
+		for (auto enemyship : enemyships_) enemyship->Render();
 
-	// Render enemy missile
-	for (auto enemymissile : enemymissiles_) enemymissile->Render();
+		// Render asteroids.
+		for (auto asteroid : asteroids_) asteroid->Render();
 
-	// Render my missile
-	if (myMissile) myMissile->Render();
+		// Render enemy missile
+		for (auto enemymissile : enemymissiles_) enemymissile->Render();
 
-	// Render booms effect
-	for (auto booms : enemybooms_) booms->Render();
+		// Render my missile
+		if (myMissile) myMissile->Render();
+
+		// Render booms effect
+		for (auto booms : enemybooms_) booms->Render();
+
+		for (auto booms : mybooms_) booms->Render();
+	}
+
+	else if (GAMESTATE_SERVERFULL == GetGameState())
+	{
+		// Render text on screen saying server is full
+		server_full.Render();
+	}
 
 	hge_->Gfx_EndScene();
 }
@@ -454,19 +524,31 @@ void Application::CreateBoom(float x, float y, int id)
 	// add a new boom based on the parameters
 	Boom *boom = new Boom("boom.png", x, y, id);
 	boom->set_render(true);
+	boom->set_render_time(0.5f);
 
+	mybooms_.push_back(boom);
 	// send new boom information to the server
 	Net::send_packet_render_boom(boom);
 }
 
+// This functions update HP on other client's screen
 void Application::UpdateHP(Missile *missile)
 {
 	Net::send_packet_update_hp(missile);
 }
 
+// This function update HP on this client's screen
 void Application::UpdateHP(Ship *ship, float damage)
 {
 	ship->Add_HP(-damage);
 	if (ship->Get_HP() <= 0.f)
+	{
 		ship->set_render(false);
+		ship->set_dead(true);
+	}
+}
+
+void Application::Respawn(Ship *ship)
+{
+	Net::send_packet_respawn_ship(ship);
 }

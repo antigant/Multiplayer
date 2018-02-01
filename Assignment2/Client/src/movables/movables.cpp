@@ -15,6 +15,9 @@ Movables::Movables()
     client_w_ = 0;
     ratio_ = 1.0f;
     collided_with_me_ = false;
+
+	render_ = true;
+	render_time = 0.0f;
 }
 
 Movables::~Movables()

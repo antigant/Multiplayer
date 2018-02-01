@@ -71,7 +71,9 @@ Ship::Ship( int shiptype, std::string shipname, float startx, float starty, floa
     shipname_ = shipname;
     shipid_ = 0;
 	maxhp_ = maxhp;
+	defaulthp_ = maxhp;
 	Set_HP( maxhp );
+	dead_ = false;
 }
 
 
@@ -128,5 +130,10 @@ void Ship::SetShipName( std::string shipname )
 std::string Ship::GetShipName( void )
 {
     return shipname_;
+}
+
+void Ship::reset_hp()
+{
+	Set_HP(defaulthp_);
 }
 

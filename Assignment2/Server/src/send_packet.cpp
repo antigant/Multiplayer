@@ -97,7 +97,7 @@ void SendPacketProcess_AsteroidCollided(_Asteroid *asteroid)
 void SendPacketProcess_ServerFull(const int SessionID)
 {
 	// Add into ship ilst.
-	g_ShipList[SessionID].connected = false;
+	g_ShipList[SessionID].connected = true;
 
 	// Send welcome message.
 	SendPacketProcess_ServerFull_Message(SessionID);
@@ -105,5 +105,13 @@ void SendPacketProcess_ServerFull(const int SessionID)
 
 void SendPacketProcess_ServerFull_Message(const int SessionID)
 {
+	// Send message telling client the server is full
+	struct HNet::_PacketMessage Packet;
+	struct PKT_S2C_ServerFull PacketData;
+	int PacketID = PACKET_ID_S2C_SERVERFULL;
+	PacketData.ShipID = SessionID;
 
+	Packet << PacketID;
+	Packet << PacketData;
+	NetObj.SendPacket(SessionID, Packet);
 }
