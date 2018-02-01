@@ -150,7 +150,7 @@ bool Application::Update()
         }
 		if (hge_->Input_GetKeyState(HGEK_ENTER))
 		{
-			if (!keydown_enter)
+			if (!keydown_enter && myship_->get_render())
 			{
 				CreateMissile(myship_->get_x(), myship_->get_y(), myship_->get_w(), myship_->GetShipID());
 				keydown_enter = true;
@@ -224,6 +224,8 @@ bool Application::Update()
 				{
 					for (auto itr_enemyship : enemyships_)
 					{
+						if (!itr_enemyship->get_render())
+							continue;
 						if (HasCollided(myMissile, itr_enemyship))
 						{
 							CreateBoom(myMissile->get_x(), myMissile->get_y(), myMissile->get_ownerid());
@@ -269,13 +271,8 @@ bool Application::Update()
 						if (HasCollided(myship_, enemymissiles_[i]))
 						{
 							missile_collided = true;
+							// render boom!
 							CreateBoom(enemymissiles_[i]->get_x(), enemymissiles_[i]->get_y(), enemymissiles_[i]->get_ownerid());
-							// Due damage to player
-
-							//enemymissiles_[i]->set_shipid(myship_->GetShipID());
-							//// functions that update hp
-							////UpdateHP(enemymissiles_[i]);
-
 							enemymissiles_.erase(enemymissiles_.begin() + i);
 							// render boom!
 							break;
